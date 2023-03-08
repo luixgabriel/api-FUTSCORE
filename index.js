@@ -4,15 +4,19 @@ import bodyParser from 'body-parser';
 
 import express from 'express';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 // const router = new Router();
 // console.log(router);
 import routes from './routes/routes.js';
 
+const { PORT } = process.env;
+dotenv.config();
+
 const app = express();
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://luixgabriel:ufcd2013@cluster0.z0hqd1i.mongodb.net/TEAMS').then(() => {
+mongoose.connect(process.env.MONGOURL).then(() => {
   console.log('conectado ao banco');
 });
 // parse application/x-www-form-urlencoded
@@ -22,6 +26,6 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
-app.listen(8686, () => {
+app.listen(PORT || 8000, () => {
   console.log('Servidor rodando');
 });
