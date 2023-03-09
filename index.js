@@ -10,8 +10,9 @@ import dotenv from 'dotenv';
 // console.log(router);
 import routes from './routes/routes.js';
 
-const { PORT } = process.env;
+
 dotenv.config();
+
 
 const app = express();
 
@@ -26,6 +27,6 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
-app.listen(PORT || 8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Servidor rodando');
 });
