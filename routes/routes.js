@@ -6,5 +6,6 @@ const routes = new Router();
 
 routes.get('/', teamsController.index);
 routes.post('/create', teamsController.createTeam);
+routes.put('/update/:id', teamsController.updateTeam);
 
 export default routes;
