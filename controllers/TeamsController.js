@@ -19,9 +19,35 @@ class TeamsController {
   async updateTeam(req,res){
     const id = req.params.id
     const {name, players, shield, slogan} = req.body
-    const teste = await Teams.updateTeam(id,name,players,shield,slogan)
-    res.json(teste)
+    if(id.length !== 24){
+      return res.json('Time não encontrado na base de dados')
+    }
+    const team = await Teams.searchTeam(id)
+    if(team.error){
+      return res.json(team.msg)
+    }
 
+    const teamUp = await Teams.updateTeam(id, name, players, shield, slogan)
+    res.json(teamUp)
+   
+  }
+
+  async deleteTeam(req,res){
+    const id = req.params.id
+    if(id.length !== 24){
+      return res.json('Time não encontrado na base de dados')
+    }
+    const team = await Teams.deleteTeam(id)
+    if(!team){
+      return res.json('Time não encontrado na base de dados')
+    }
+    res.json('Time deletado com sucesso')
+  }
+
+  async searchTeam (req,res){
+    const id = req.params.id
+    const team = await Teams.searchTeam(id)
+    res.json(team)
   }
 
 }

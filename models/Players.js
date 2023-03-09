@@ -14,10 +14,6 @@ const playersModel = mongoose.model('Players', playersSchema)
 //Service
 class Players {
 
-  constructor(errors){
-    this.errors = []
-  }
-
     async create(email,name,password){
       
     }

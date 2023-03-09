@@ -5,6 +5,8 @@ const teamsSchema = new mongoose.Schema({
     players: {type: Number, required: true},
     shield: {type: String, required: true},
     slogan: {type: String, required: true},
+    wins: {type: Number, default: '0'},
+    losses: {type: Number, default: '0'}
 })
 
 const teamsModel = mongoose.model('Teams', teamsSchema)
@@ -36,14 +38,46 @@ class Teams {
     }
 
     async updateTeam(id,name,players,shield,slogan){
-      
+
+          try {
+            const validate = await this.validate(name,players,shield,slogan)
+            if (!validate.status){
+              return {error: true, msg: validate.msg}
+            }
+
+            const Team = await teamsModel.findByIdAndUpdate(id, {name,players,shield, slogan}, {new: true})
+            return Team
+
+          } catch (error) {
+            console.log(error)
+            return
+          }
+          
+        }
+
+    
+    async deleteTeam(id){
       try {
-        
+        const teste = await teamsModel.findByIdAndDelete(id)
+        return teste
       } catch (error) {
-        
+        console.log(error)
+        return
       }
-      const Team = await teamsModel.findByIdAndUpdate(id, {name,players,shield, slogan})
-      return Team
+      
+    }
+
+    async searchTeam(id){
+      try {
+        const Team = await teamsModel.findById(id)
+        console.log(Team)
+        if(!Team){
+          return {error: true, msg: 'Esse time não existe'}
+        }
+        return Team
+      } catch (error) {
+        return {error: true}
+      }
     }
 
     async validate(name,players,shield,slogan){
