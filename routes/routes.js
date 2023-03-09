@@ -5,5 +5,6 @@ import teamsController from '../controllers/TeamsController.js';
 const routes = new Router();
 
 routes.get('/', teamsController.index);
+routes.post('/create', teamsController.createTeam);
 
 export default routes;

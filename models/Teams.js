@@ -17,13 +17,29 @@ class Teams {
     this.errors = []
   }
 
-    async create(email,name,password){
-        try{
-            var hash = await bcrypt.hash(password, 12)
-            await knex.insert({name,email,password: hash,role:0}).table('users')
-        }catch{
-            return {msg: "erro"}
+    
+    async create(name,players,shield,slogan){
+      try {
+        const validate = await this.validate(name,players,shield,slogan)
+       
+        if (!validate.status){
+        
+          return {msg: "Erro na validação"}
         }
+        const Team = await teamsModel.create({name, players, shield, slogan})
+        return Team
+      } catch (error) {
+        
+      }
+      
+    }
+
+    async validate(name,players,shield,slogan){
+
+      if(!name || !players || !shield || !slogan){
+        return {status: false,  msg: "Erro na validação dos dados"}
+      }
+
     }
 
   }

@@ -19,12 +19,7 @@ class Players {
   }
 
     async create(email,name,password){
-        try{
-            var hash = await bcrypt.hash(password, 12)
-            await knex.insert({name,email,password: hash,role:0}).table('users')
-        }catch{
-            return {msg: "erro"}
-        }
+      
     }
 
   }
