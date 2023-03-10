@@ -6,7 +6,8 @@ const teamsSchema = new mongoose.Schema({
     shield: {type: String, required: true},
     slogan: {type: String, required: true},
     wins: {type: Number, default: '0'},
-    losses: {type: Number, default: '0'}
+    defeats: {type: Number, default: '0'},
+    draws: {type: Number, default: '0'}
 })
 
 const teamsModel = mongoose.model('Teams', teamsSchema)
@@ -78,6 +79,10 @@ class Teams {
       } catch (error) {
         return {error: true}
       }
+    }
+
+    async resultMatch(name){
+        
     }
 
     async validate(name,players,shield,slogan){
