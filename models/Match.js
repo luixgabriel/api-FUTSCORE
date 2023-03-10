@@ -19,9 +19,31 @@ const matchsModel = mongoose.model('Matchs', matchsSchema)
 class Matchs {
 
     async create(duration, times, teams, winner, defeated, finished){
-      console.log(teams)
-        const Match = await matchsModel.create({duration: duration, times: times, teams: {team1: teams.team1, team2: teams.team2}})
-        return Match
+  
+        const status = await this.validate(duration,times,teams)
+        
+        if(status.status){
+          const Match = await matchsModel.create({duration: duration, times: times, teams: {team1: teams.team1, team2: teams.team2}})
+          return Match
+        }
+        return status.msg
+        
+    }
+
+    async validate(duration, times, teams){
+      if(!duration || !times){
+        return {error: true, msg: "dados invalidos"}
+      }
+
+      if(teams.team2 === '' || teams.team1 === ''){
+        return {error: true, msg: "Times não selecionado"}
+      }
+
+      if(!isNaN(teams.team1) || !isNaN(teams.team2) ){
+        return {error: true, msg: "Times inválido"}
+      }
+      
+      return {status:true}
     }
 
   }

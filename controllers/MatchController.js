@@ -16,21 +16,8 @@ class MatchController {
     }
    
     const match = await Match.create(duration, times, teams)
-    // res.json(match)
-
-        // names.forEach(t => {
-        //   const teams = {
-        //     team1: t,
-        //     team2: t
-        //   }
-        // });
-
-      
-
-
     res.json(match)
-    // const teams = await Teams.searchTeamByName(name)
-    // res.json(teams)
+  
   }
 }
 
