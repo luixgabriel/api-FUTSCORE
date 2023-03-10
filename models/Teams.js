@@ -81,6 +81,11 @@ class Teams {
       }
     }
 
+    async searchTeamByName(name){
+      const Team = await teamsModel.findOne({name: name})
+      return Team
+    }
+
     async resultMatch(name){
         
     }

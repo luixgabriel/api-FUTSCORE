@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const matchsSchema = new mongoose.Schema({
-    duration: {type: String, required: true},
-    halfTime: {type: Boolean, required: false},
+    duration: {type: Number, required: true},
+    times: {type: Number, required: true},
     teams: {
       team1: {type: String, required: true},
       team2: {type: String, required: true},

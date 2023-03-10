@@ -8,7 +8,9 @@ import dotenv from 'dotenv';
 
 // const router = new Router();
 // console.log(router);
-import routes from './routes/routes.js';
+
+import teamRoutes from './routes/teamRoutes.js'
+import matchRoutes from './routes/matchRoutes.js'
 
 
 dotenv.config();
@@ -25,7 +27,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use('/', teamRoutes);
+app.use('/match', matchRoutes);
 
 app.listen(process.env.PORT || 8000, () => {
   console.log('Servidor rodando');
