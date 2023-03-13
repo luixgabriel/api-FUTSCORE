@@ -11,6 +11,7 @@ const routes = new Router();
 // routes.put('/update/:id', teamsController.updateTeam);
 // routes.delete('/delete/:id', teamsController.deleteTeam);
 
-routes.get('/', matchController.createMatch)
+routes.post('/', matchController.createMatch)
+routes.get('/result/:id', matchController.resultMatch)
 
 export default routes;

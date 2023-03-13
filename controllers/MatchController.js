@@ -19,6 +19,13 @@ class MatchController {
     res.json(match)
   
   }
+
+  async resultMatch(req,res){
+    const id = req.params.id
+    const {winner, defeated} = req.body
+    const result = await Match.matchResult(id, winner, defeated)
+    res.json(result)
+  }
 }
 
 export default new MatchController();

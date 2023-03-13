@@ -9,6 +9,7 @@ const matchsSchema = new mongoose.Schema({
     }, 
     winner: {type: String, default: 'null', required: true},
     defeated: {type: String, default: 'null', required: true},
+    draw: {type: Boolean, default: false, required: true},
     finished: {type: Boolean, default: false, required: true},
 })
 
@@ -28,6 +29,28 @@ class Matchs {
         }
         return status.msg
         
+    }
+
+    async matchResult(id,winner,defeated){
+      const Result = await this.searchMatch(id)
+
+      if(winner !== Result.teams.team1 && defeated !== Result.teams.team2){
+        console.log('erro');
+        return
+      }
+     
+      if(defeated !== Result.teams.team1 && defeated !== Result.teams.team2){
+        console.log('erro');
+        return
+      }
+
+      console.log('passou')
+
+    }
+
+    async searchMatch(id){
+      const Match = await matchsModel.findById(id)
+      return Match
     }
 
     async validate(duration, times, teams){
