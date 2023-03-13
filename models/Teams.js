@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Match from "../models/Match.js";
 
 const teamsSchema = new mongoose.Schema({
     name: {type: String, required: true},
@@ -82,12 +83,20 @@ class Teams {
     }
 
     async searchTeamByName(name){
+      console.log(name + 'na minha funcao')
       const Team = await teamsModel.findOne({name: name})
       return Team
     }
 
-    async resultMatch(name){
-        
+    async updateStats(id){
+       const match = await Match.searchMatch(id)
+       console.log(match.winner)
+       const winnerTeam = await this.searchTeamByName(match.winner)
+       const defeatedTeam = await this.searchTeamByName(match.defeated)
+       console.log(defeatedTeam)
+       await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
+       await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1})
+       
     }
 
     async validate(name,players,shield,slogan){

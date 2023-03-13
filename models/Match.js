@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Teams from "../models/Teams.js";
+import Team from '../models/Teams.js'
 
 const matchsSchema = new mongoose.Schema({
     duration: {type: Number, required: true},
@@ -39,10 +41,14 @@ class Matchs {
     async matchResult(id,winner,defeated,draw,scoreboard){
       let error = false
       const Result = await this.searchMatch(id)
+      console.log(Result)
       const finalScore = String(scoreboard[0]) + 'x' + String(scoreboard[1])
 
-      if(winner !== Result.teams.team1 && defeated !== Result.teams.team2){
+      Teams.updateStats(Result.id);
+
+      if(winner !== Result.teams.team1 && winner !== Result.teams.team2){
         error = true;
+       
       }
      
       if(defeated !== Result.teams.team1 && defeated !== Result.teams.team2){
@@ -69,6 +75,7 @@ class Matchs {
       const Match = await matchsModel.findById(id)
       return Match
     }
+
 
     async validate(duration, times, teams){
       if(!duration || !times){
