@@ -6,7 +6,12 @@ const matchsSchema = new mongoose.Schema({
     teams: {
       team1: {type: String, required: true},
       team2: {type: String, required: true},
-    }, 
+    },
+    scoreboard: {
+      team1Goals: {type: Number, required: true, default: 0},
+      team2Goals: {type: Number, required: true, default: 0},
+      totals: {type: String, required: true, default: 0 }
+    },  
     winner: {type: String, default: 'null', required: true},
     defeated: {type: String, default: 'null', required: true},
     draw: {type: Boolean, default: false, required: true},
@@ -19,7 +24,7 @@ const matchsModel = mongoose.model('Matchs', matchsSchema)
 //Service
 class Matchs {
 
-    async create(duration, times, teams, winner, defeated, finished){
+    async create(duration, times, teams){
   
         const status = await this.validate(duration,times,teams)
         
@@ -31,20 +36,32 @@ class Matchs {
         
     }
 
-    async matchResult(id,winner,defeated){
+    async matchResult(id,winner,defeated,draw,scoreboard){
+      let error = false
       const Result = await this.searchMatch(id)
+      const finalScore = String(scoreboard[0]) + 'x' + String(scoreboard[1])
 
       if(winner !== Result.teams.team1 && defeated !== Result.teams.team2){
-        console.log('erro');
-        return
+        error = true;
       }
      
       if(defeated !== Result.teams.team1 && defeated !== Result.teams.team2){
-        console.log('erro');
-        return
+        error = true
       }
 
-      console.log('passou')
+      if(error){
+        return {msg: 'Os times selecionados não coincidem com os da partida'}
+      }
+
+      if(draw){
+        const result = await matchsModel.findByIdAndUpdate(id, {draw: true, finished: true, scoreboard: {team1Goals: scoreboard[0], team2Goals: scoreboard[1], totals: finalScore}}, {new: true})
+        return result
+      }
+
+  
+      const ResultMatch = await matchsModel.findByIdAndUpdate(id, {winner: winner, defeated: defeated, scoreboard: {team1Goals: scoreboard[0], team2Goals: scoreboard[1], totals: finalScore}, finished: true}, {new: true})
+      return ResultMatch
+
 
     }
 

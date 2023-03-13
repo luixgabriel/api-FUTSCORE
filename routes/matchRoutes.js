@@ -12,6 +12,7 @@ const routes = new Router();
 // routes.delete('/delete/:id', teamsController.deleteTeam);
 
 routes.post('/', matchController.createMatch)
-routes.get('/result/:id', matchController.resultMatch)
+routes.put('/result/:id', matchController.resultMatch)
+routes.get('/searchmatch/:id', matchController.searchMatch)
 
 export default routes;

@@ -50,10 +50,6 @@ class TeamsController {
     res.json(team)
   }
 
-  async resultGame (req,res){
-    const {nameTeam} = req.body
-
-  }
 
 }
 
