@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Teams from "../models/Teams.js";
-import Player from '../models/Players.js';
-import Players from "../models/Players.js";
+import Players from '../models/Players.js';
+
 
 
 const matchsSchema = new mongoose.Schema({
@@ -53,18 +53,24 @@ class Matchs {
         
     }
 
-    async matchEvents(id, player, team, goals, assists){
-      const Match = await this.searchMatch(id)
-      const Player = await Players.serchPlayerByName(player)
-      console.log(Match);
-      console.log(Player);
-      if(team === Match.teams.team1){
-        console.log('sim')
+    async matchEvents(match, team, goals, assists){
+      console.log(match)
+      console.log(team)
+      console.log(goals)
+      console.log(assists)
+
+      if(team.name === match.teams.team1){
+        const currentScore = String(match.scoreboard.team1Goals + 1) + 'x' + String(match.scoreboard.team2Goals);
+        const pt = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals + 1, team2Goals: match.scoreboard.team2Goals, totals: currentScore} }, {new: true})
+        await Players.playerEvents(goals, assists)
+        return pt
       }
       else{
-        console.log('nao')
+        const currentScore = String(match.scoreboard.team1Goals) + 'x' + String(match.scoreboard.team2Goals + 1);
+        const pt = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals, team2Goals: match.scoreboard.team2Goals + 1, totals: currentScore} }, {new: true})
+        await Players.playerEvents(goals, assists)
+        return pt
       }
-        return      
     }
 
     async matchResult(id,winner,defeated,draw,scoreboard){

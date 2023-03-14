@@ -35,6 +35,23 @@ class Players {
       }
     }
 
+    async playerEvents(playerGoal, playerAssist){
+      
+      try {
+        const PlayerGoal = await playersModel.findById(playerGoal.id)
+        await playersModel.updateOne({name: PlayerGoal.name}, {goals: PlayerGoal.goals + 1})
+
+        if(playerAssist){
+          const playerAssistbd = await playersModel.findById(playerAssist.id)
+          await playersModel.updateOne({name: playerAssistbd.name}, {assists: playerAssistbd.assists + 1})
+        }
+
+      } catch (error) {
+        console.log(error)
+        return {msg: 'Erro desconhecido'}
+      }
+    }
+
   }
 
 export default new Players()

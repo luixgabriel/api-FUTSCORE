@@ -1,5 +1,6 @@
 import Teams from "../models/Teams.js";
 import Match from "../models/Match.js";
+import Player from '../models/Players.js'
 /* eslint-disable class-methods-use-this */
 class MatchController {
   async index(req, res) {
@@ -17,8 +18,45 @@ class MatchController {
 
   async matchEvents(req,res){
     const id = req.params.id
-    const {player, team, goals, assists} = req.body
-    const teste = await Match.matchEvents(id, player, team, goals, assists)
+    const {team, goals, assists} = req.body
+   
+    const match = await Match.searchMatch(id)
+    const teamBD = await Teams.searchTeamByName(team)
+    const playerGoal = await Player.serchPlayerByName(goals)
+    
+    if(!match){
+      return res.json({msg: 'Essa partida não existe'})
+    }
+
+    if(!teamBD){
+      return res.json({msg: 'Esse time não está na base de dados'})
+    }
+
+    if(!playerGoal){
+      return res.json({msg: 'O jogador que fez o gol não está na base de dados'})
+    }
+
+    
+    if(playerGoal.team !== teamBD.name){
+      return res.json({msg: 'Esse jogador não faz parte desse time'})
+    }
+
+    if(assists){
+      const playerAssist = await Player.serchPlayerByName(assists)
+        if(!playerAssist){
+          return res.json({msg: 'O jogador que deu a assistência não está na base de dados'})
+        }
+
+        if(playerAssist.team !== teamBD.name){
+          return res.json({msg: 'Esse jogador não faz parte desse time'})
+        }
+
+        const teste = await Match.matchEvents( match, teamBD, playerGoal, playerAssist)
+        return res.json(teste)
+    }
+    
+
+    const teste = await Match.matchEvents( match, teamBD, playerGoal)
     res.json(teste)
     
   }
