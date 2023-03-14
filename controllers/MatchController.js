@@ -15,6 +15,14 @@ class MatchController {
   
   }
 
+  async matchEvents(req,res){
+    const id = req.params.id
+    const {player, team, goals, assists} = req.body
+    const teste = await Match.matchEvents(id, player, team, goals, assists)
+    res.json(teste)
+    
+  }
+
   async resultMatch(req,res){
     const id = req.params.id
     const {winner, defeated, draw, scoreboard} = req.body

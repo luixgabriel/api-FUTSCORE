@@ -25,6 +25,16 @@ class Players {
 
     }
 
+    async serchPlayerByName(name){
+      try {
+        const Player = await playersModel.findOne({name: name});
+        return Player;
+      } catch (error) {
+        console.log(error)
+        return {msg: 'Esse jogador não existe na base de dados'}
+      }
+    }
+
   }
 
 export default new Players()

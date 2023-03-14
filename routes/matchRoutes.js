@@ -14,5 +14,6 @@ const routes = new Router();
 routes.post('/', matchController.createMatch)
 routes.put('/result/:id', matchController.resultMatch)
 routes.get('/searchmatch/:id', matchController.searchMatch)
+routes.put('/current/:id', matchController.matchEvents)
 
 export default routes;

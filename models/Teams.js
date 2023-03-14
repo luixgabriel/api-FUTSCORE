@@ -96,7 +96,13 @@ class Teams {
        const match = await Match.searchMatch(id)
        
        if(match.draw){
-        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
+        const t1 = await this.searchTeamByName(match.teams.team1)
+        const t2 = await this.searchTeamByName(match.teams.team2)
+
+          await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1})
+          await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1})
+
+        return
        }
        const winnerTeam = await this.searchTeamByName(match.winner)
        const defeatedTeam = await this.searchTeamByName(match.defeated)

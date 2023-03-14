@@ -10,6 +10,12 @@ class PlayerController {
     const player = await Players.createPlayer(name,team,numberTshirt)
     res.json(player)
   }
+
+  async searchPlayer(req,res){
+    const {player} = req.body
+    const playerBD = await Players.serchPlayerByName(player)
+    res.json(playerBD)
+  }
 }
 
 export default new PlayerController();

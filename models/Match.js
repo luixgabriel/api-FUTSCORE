@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Teams from "../models/Teams.js";
+import Player from '../models/Players.js';
+import Players from "../models/Players.js";
 
 
 const matchsSchema = new mongoose.Schema({
@@ -49,6 +51,20 @@ class Matchs {
         }
         return status.msg
         
+    }
+
+    async matchEvents(id, player, team, goals, assists){
+      const Match = await this.searchMatch(id)
+      const Player = await Players.serchPlayerByName(player)
+      console.log(Match);
+      console.log(Player);
+      if(team === Match.teams.team1){
+        console.log('sim')
+      }
+      else{
+        console.log('nao')
+      }
+        return      
     }
 
     async matchResult(id,winner,defeated,draw,scoreboard){
