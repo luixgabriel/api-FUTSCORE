@@ -34,7 +34,7 @@ class Teams {
         return Team
 
       } catch (error) {
-        
+        return
       }
       
     }
@@ -83,17 +83,24 @@ class Teams {
     }
 
     async searchTeamByName(name){
-      console.log(name + 'na minha funcao')
-      const Team = await teamsModel.findOne({name: name})
-      return Team
+      try {
+        const Team = await teamsModel.findOne({name: name})
+        return Team
+      } catch (error) {
+        return {msg: 'Esse time não existe na base de dados'}
+      }
+      
     }
 
     async updateStats(id){
        const match = await Match.searchMatch(id)
-       console.log(match.winner)
+       
+       if(match.draw){
+        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
+       }
        const winnerTeam = await this.searchTeamByName(match.winner)
        const defeatedTeam = await this.searchTeamByName(match.defeated)
-       console.log(defeatedTeam)
+    
        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
        await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1})
        
