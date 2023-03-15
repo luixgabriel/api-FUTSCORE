@@ -10,5 +10,6 @@ const routes = new Router();
 // routes.delete('/delete/:id', teamsController.deleteTeam);
 
 routes.post('/', PlayerController.create)
+routes.get('/selectedPlayer/:id', PlayerController.searchPlayerById)
 
 export default routes;

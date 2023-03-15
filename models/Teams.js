@@ -8,7 +8,8 @@ const teamsSchema = new mongoose.Schema({
     slogan: {type: String, required: true},
     wins: {type: Number, default: '0'},
     defeats: {type: Number, default: '0'},
-    draws: {type: Number, default: '0'}
+    draws: {type: Number, default: '0'},
+    selectedNumbers: {type: Array, required: false}
 })
 
 const teamsModel = mongoose.model('Teams', teamsSchema)
@@ -16,7 +17,10 @@ const teamsModel = mongoose.model('Teams', teamsSchema)
 
 //Service
 class Teams {
-    
+     constructor(tshirtNumbers){
+        this.tshirtNumbers = []
+     }
+
     async getTeams(){
       const Teams = await teamsModel.find()
       return Teams
@@ -39,8 +43,23 @@ class Teams {
       
     }
 
-    async updateTeam(id,name,players,shield,slogan){
+    async updateTeam(id,name,players,shield,slogan,selectedNumber){
 
+       
+         
+
+          if(selectedNumber){
+            const Team = await this.searchTeam(id)
+        
+            this.tshirtNumbers = Team.selectedNumbers
+            this.tshirtNumbers.push(selectedNumber)
+           
+
+            const TeamAtt = await teamsModel.findByIdAndUpdate(id, {selectedNumbers: this.tshirtNumbers}, {new: true})
+            this.tshirtNumbers = []
+            console.log(this.tshirtNumbers)
+            return TeamAtt
+          }
           try {
             const validate = await this.validate(name,players,shield,slogan)
             if (!validate.status){

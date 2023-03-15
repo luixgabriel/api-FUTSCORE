@@ -51,13 +51,13 @@ class MatchController {
           return res.json({msg: 'Esse jogador não faz parte desse time'})
         }
 
-        const teste = await Match.matchEvents( match, teamBD, playerGoal, playerAssist)
-        return res.json(teste)
+        const matchCurrent = await Match.matchEvents( match, teamBD, playerGoal, playerAssist)
+        return res.json(matchCurrent)
     }
     
 
-    const teste = await Match.matchEvents( match, teamBD, playerGoal)
-    res.json(teste)
+    const matchCurrent = await Match.matchEvents( match, teamBD, playerGoal)
+    return res.json(matchCurrent)
     
   }
 

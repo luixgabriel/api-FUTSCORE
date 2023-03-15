@@ -20,9 +20,21 @@ class Players {
       if(!TeamBD){
         return {status: false, msg: 'Esse time não existe na base de dados'}
       }
+      Team.updateTeam(TeamBD.id, '','','','', numberTshirt)
+    
       const Player = await playersModel.create({name: name, team: team, numberTshirt: numberTshirt});
       return Player
 
+    }
+
+    async serchPlayerById(id){
+      try {
+        const Player = await playersModel.findById(id)
+        return Player;
+      } catch (error) {
+        console.log(error)
+        return {msg: 'Esse jogador não existe na base de dados'}
+      }
     }
 
     async serchPlayerByName(name){
@@ -34,6 +46,7 @@ class Players {
         return {msg: 'Esse jogador não existe na base de dados'}
       }
     }
+    
 
     async playerEvents(playerGoal, playerAssist){
       
@@ -50,6 +63,10 @@ class Players {
         console.log(error)
         return {msg: 'Erro desconhecido'}
       }
+    }
+
+    async validate(name,numberTshirt){
+
     }
 
   }

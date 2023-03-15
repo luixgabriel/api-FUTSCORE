@@ -54,23 +54,25 @@ class Matchs {
     }
 
     async matchEvents(match, team, goals, assists){
-      console.log(match)
-      console.log(team)
-      console.log(goals)
-      console.log(assists)
 
-      if(team.name === match.teams.team1){
-        const currentScore = String(match.scoreboard.team1Goals + 1) + 'x' + String(match.scoreboard.team2Goals);
-        const pt = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals + 1, team2Goals: match.scoreboard.team2Goals, totals: currentScore} }, {new: true})
-        await Players.playerEvents(goals, assists)
-        return pt
+      try {
+        if(team.name === match.teams.team1){
+          const currentScore = String(match.scoreboard.team1Goals + 1) + 'x' + String(match.scoreboard.team2Goals);
+          const Match = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals + 1, team2Goals: match.scoreboard.team2Goals, totals: currentScore} }, {new: true})
+          await Players.playerEvents(goals, assists)
+          return Match
+        }
+        else{
+          const currentScore = String(match.scoreboard.team1Goals) + 'x' + String(match.scoreboard.team2Goals + 1);
+          const Match = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals, team2Goals: match.scoreboard.team2Goals + 1, totals: currentScore} }, {new: true})
+          await Players.playerEvents(goals, assists)
+          return Match
+        }
+      } catch (error) {
+        return {msg: 'Erro desconhecido'}
       }
-      else{
-        const currentScore = String(match.scoreboard.team1Goals) + 'x' + String(match.scoreboard.team2Goals + 1);
-        const pt = await matchsModel.findByIdAndUpdate(match.id, {scoreboard: {team1Goals: match.scoreboard.team1Goals, team2Goals: match.scoreboard.team2Goals + 1, totals: currentScore} }, {new: true})
-        await Players.playerEvents(goals, assists)
-        return pt
-      }
+      
+      
     }
 
     async matchResult(id,winner,defeated,draw,scoreboard){
