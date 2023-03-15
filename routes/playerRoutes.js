@@ -11,6 +11,7 @@ const routes = new Router();
 
 routes.post('/', PlayerController.create)
 routes.get('/selectedPlayer/:id', PlayerController.searchPlayerById)
+routes.put('/updatePlayer/:id', PlayerController.edit)
 routes.delete('/deletePlayer/:id', PlayerController.delete)
 
 export default routes;

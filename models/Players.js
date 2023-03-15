@@ -46,6 +46,11 @@ class Players {
 
     }
 
+    async updatePlayer(player, name, team, tshirt){
+      const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team, numberTshirt: tshirt }, {new: true})
+      return attPlayer
+    }
+
     async deletePlayer(id){
       const Player = await playersModel.findById(id)
       if(!Player){
