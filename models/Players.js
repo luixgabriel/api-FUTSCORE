@@ -16,15 +16,53 @@ const playersModel = mongoose.model('Players', playersSchema)
 class Players {
 
     async createPlayer(name,team,numberTshirt){
+      let tshirtDuplicate = false
+
       const TeamBD = await Team.searchTeamByName(team)
       if(!TeamBD){
         return {status: false, msg: 'Esse time não existe na base de dados'}
       }
-      Team.updateTeam(TeamBD.id, '','','','', numberTshirt)
-    
+
+      if(TeamBD.players <= TeamBD.selectedNumbers.length ){
+        console.log('parou')
+        return {msg: 'O time já está com todos os jogadores selecionados'}
+      }
+
+      TeamBD.selectedNumbers.forEach(element => {
+        if(element === numberTshirt){
+          tshirtDuplicate = true
+          return tshirtDuplicate
+        }
+      });
+
+      if(tshirtDuplicate){
+        return {msg: 'Já possui um jogador com esse numero de camisa no time'}
+      }
+
+      await Team.updateTeam(TeamBD.id, '','','','', numberTshirt);
+
       const Player = await playersModel.create({name: name, team: team, numberTshirt: numberTshirt});
       return Player
 
+    }
+
+    async deletePlayer(id){
+      const Player = await playersModel.findById(id)
+      if(!Player){
+        return {msg: 'Jogador não existe na base de dados'}
+      }
+      const tshirt = Player.numberTshirt;
+      if(!tshirt){
+        return {msg: 'Jogador não existe na base de dados'}
+      }
+      const TeamBD = await Team.searchTeamByName(Player.team)
+      let arr = TeamBD.selectedNumbers;
+      arr.splice(arr.indexOf(tshirt), 1);
+      await Team.removeTshirt(TeamBD.id, arr);
+      await playersModel.findByIdAndDelete(id)
+      
+      return {msg: 'Jogador deletado com sucesso'};
+     
     }
 
     async serchPlayerById(id){

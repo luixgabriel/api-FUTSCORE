@@ -45,9 +45,6 @@ class Teams {
 
     async updateTeam(id,name,players,shield,slogan,selectedNumber){
 
-       
-         
-
           if(selectedNumber){
             const Team = await this.searchTeam(id)
         
@@ -56,8 +53,7 @@ class Teams {
            
 
             const TeamAtt = await teamsModel.findByIdAndUpdate(id, {selectedNumbers: this.tshirtNumbers}, {new: true})
-            this.tshirtNumbers = []
-            console.log(this.tshirtNumbers)
+            this.tshirtNumbers = [];
             return TeamAtt
           }
           try {
@@ -76,6 +72,10 @@ class Teams {
           
         }
 
+    async removeTshirt(id, tshirts){
+        await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts});
+    }    
+
     
     async deleteTeam(id){
       try {
@@ -90,8 +90,7 @@ class Teams {
 
     async searchTeam(id){
       try {
-        const Team = await teamsModel.findById(id)
-        console.log(Team)
+        const Team = await teamsModel.findById(id);
         if(!Team){
           return {error: true, msg: 'Esse time não existe'}
         }

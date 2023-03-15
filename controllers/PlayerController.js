@@ -14,6 +14,12 @@ class PlayerController {
     res.json(player)
   }
 
+  async delete(req,res){
+    const id = req.params.id;
+    const p = await Players.deletePlayer(id);
+    res.json(p)
+  }
+
   async searchPlayerByName(req,res){
     const {player} = req.body
     const playerBD = await Players.serchPlayerByName(player)
