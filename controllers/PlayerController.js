@@ -31,13 +31,16 @@ class PlayerController {
     }
 
     const teamNumbers = TeamBD.selectedNumbers;
+    // console.log(teamNumbers)
+    // console.log(numberTshirt)
     const numberExists = teamNumbers.find(tshirt => tshirt === numberTshirt);
   
     if(numberExists){
       return res.json({msg: 'Já possui um jogador com esse numero de camisa no time'})
   }
 
-    const PlayerAtt = await Players.updatePlayer(PlayerBD, name, team, numberTshirt);
+ 
+    const PlayerAtt = await Players.updatePlayer(PlayerBD, name, TeamBD, numberTshirt, PlayerBD.numberTshirt, PlayerBD.team);
 
     res.json(PlayerAtt)
     

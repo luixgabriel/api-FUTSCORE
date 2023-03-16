@@ -46,9 +46,47 @@ class Players {
 
     }
 
-    async updatePlayer(player, name, team, tshirt){
-      const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team, numberTshirt: tshirt }, {new: true})
+    async updatePlayer(player, name, team, tshirt, oldShirt, oldTeam){
+
+      
+      console.log(team.name + ' ' + 'Meu time atual')
+      console.log(oldTeam + ' ' + 'Meu time antigo')
+
+      if(team.name === oldTeam){
+          const tshirtsTeam = team.selectedNumbers;
+          tshirtsTeam.splice(tshirtsTeam.indexOf(oldShirt), 1);
+          tshirtsTeam.push(tshirt);
+          await Team.updateTshirt(team.id, tshirtsTeam);
+    
+          const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team.name, numberTshirt: tshirt}, {new: true})
+          return attPlayer
+      }
+
+
+      const oldT = await Team.searchTeamByName(oldTeam);
+
+      const OldShirts = oldT.selectedNumbers;
+
+      OldShirts.splice(OldShirts.indexOf(oldShirt), 1);
+
+      await Team.updateTshirt(oldT.id, OldShirts);
+
+      const newShirts = team.selectedNumbers;
+      
+      newShirts.push(tshirt)
+
+      await Team.updateTshirt(team.id, newShirts)
+
+      const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team.name, numberTshirt: tshirt}, {new: true})
       return attPlayer
+      
+
+      ////////////////////////////////////////////////////////////////
+
+     
+
+      
+
     }
 
     async deletePlayer(id){
@@ -64,7 +102,7 @@ class Players {
       let arr = TeamBD.selectedNumbers;
       arr.splice(arr.indexOf(tshirt), 1);
       await Team.removeTshirt(TeamBD.id, arr);
-      await playersModel.findByIdAndDelete(id)
+      await playersModel.findByIdAndDelete(id);
       
       return {msg: 'Jogador deletado com sucesso'};
      

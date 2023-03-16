@@ -77,10 +77,11 @@ class Teams {
     } 
     
     async updateTshirt(id, tshirts){
-      await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts});
-  } 
+      const b = await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts},{new: true});
+      return b
+    } 
 
-    
+
     async deleteTeam(id){
       try {
         const teste = await teamsModel.findByIdAndDelete(id)
