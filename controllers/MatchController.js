@@ -51,7 +51,7 @@ class MatchController {
           return res.json({msg: 'Esse jogador não faz parte desse time'})
         }
 
-        const matchCurrent = await Match.matchEvents( match, teamBD, playerGoal, playerAssist)
+        const matchCurrent = await Match.matchEvents(match, teamBD, playerGoal, playerAssist)
         return res.json(matchCurrent)
     }
     
@@ -63,10 +63,8 @@ class MatchController {
 
   async resultMatch(req,res){
     const id = req.params.id
-    const {winner, defeated, draw, scoreboard} = req.body
-    let scoreboardTeste = [2]
-    scoreboardTeste.push(scoreboard)
-    const result = await Match.matchResult(id, winner, defeated, draw, scoreboardTeste)
+    const {winner, defeated, draw} = req.body
+    const result = await Match.matchResult(id, winner, defeated, draw)
     res.json(result)
   }
 

@@ -22,23 +22,28 @@ class Teams {
      }
 
     async getTeams(){
-      const Teams = await teamsModel.find()
-      return Teams
+      try {
+        const Teams = await teamsModel.find();
+        return Teams;
+      } catch (error) {
+        console.log(error)
+        return {msg: 'Erro desconhecido'};
+      }
     }
 
     async create(name,players,shield,slogan){
       try {
-        const validate = await this.validate(name,players,shield,slogan)
-       
+        const validate = await this.validate(name,players,shield,slogan);
         if (!validate.status){
-          return {error: true, msg: validate.msg}
+          return {msg: validate.msg}
         }
 
         const Team = await teamsModel.create({name, players, shield, slogan})
-        return Team
+        return Team;
 
       } catch (error) {
-        return
+        console.log(error)
+        return {msg: 'Erro desconhecido'}
       }
       
     }
@@ -46,49 +51,44 @@ class Teams {
     async updateTeam(id,name,players,shield,slogan,selectedNumber){
 
           if(selectedNumber){
-            const Team = await this.searchTeam(id)
+            const Team = await this.searchTeam(id);
+            this.tshirtNumbers = Team.selectedNumbers;
+            this.tshirtNumbers.push(selectedNumber);
         
-            this.tshirtNumbers = Team.selectedNumbers
-            this.tshirtNumbers.push(selectedNumber)
-           
-
             const TeamAtt = await teamsModel.findByIdAndUpdate(id, {selectedNumbers: this.tshirtNumbers}, {new: true})
             this.tshirtNumbers = [];
             return TeamAtt
           }
           try {
-            const validate = await this.validate(name,players,shield,slogan)
-            if (!validate.status){
-              return {error: true, msg: validate.msg}
+            const teamExists = await this.searchTeamByName(name);
+            
+            if(teamExists){
+              return {msg: 'Esse time já existe na base de dados, Digite outro nome.'}
             }
 
             const Team = await teamsModel.findByIdAndUpdate(id, {name,players,shield, slogan}, {new: true})
-            return Team
+            return Team;
 
           } catch (error) {
             console.log(error)
-            return
+            return {msg: 'Erro desconhecido'}
           }
           
         }
-
-    async removeTshirt(id, tshirts){
-        await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts});
-    } 
     
     async updateTshirt(id, tshirts){
-      const b = await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts},{new: true});
-      return b
+      await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts},{new: true});
+      
     } 
 
 
     async deleteTeam(id){
       try {
-        const teste = await teamsModel.findByIdAndDelete(id)
-        return teste
+        await teamsModel.findByIdAndDelete(id)
+        return 
       } catch (error) {
-        console.log(error)
-        return
+        console.log(error);
+        return {msg: 'Erro desconhecido'}
       }
       
     }
@@ -97,23 +97,29 @@ class Teams {
       try {
         const Team = await teamsModel.findById(id);
         if(!Team){
-          return {error: true, msg: 'Esse time não existe'}
+          return {msg: 'Esse time não existe na base de dados.'}
         }
-        return Team
+        return Team;
       } catch (error) {
-        return {error: true}
+        console.log(error);
+        return {msg: 'Erro desconhecido'};
       }
     }
 
     async searchTeamByName(name){
       try {
         const Team = await teamsModel.findOne({name: name})
-        return Team
+        if(!Team){
+          return {msg: 'Esse time não existe na base de dados.'}
+        }
+        return Team;
       } catch (error) {
         return {msg: 'Esse time não existe na base de dados'}
       }
       
     }
+
+    ///////////CONTINUAR DAQUI
 
     async updateStats(id){
        const match = await Match.searchMatch(id)
@@ -136,17 +142,19 @@ class Teams {
     }
 
     async validate(name,players,shield,slogan){
-
+      const teamExists = await this.searchTeamByName(name);
+      if(teamExists){
+        return {msg: 'Esse time já existe na base de dados, Digite outro nome.'}
+      }
       if(!name || !players || !shield || !slogan){
-        return {status: false,  msg: "Erro na validação dos dados"}
+        return {status: false,  msg: "Erro na validação dos dados."}
       }
 
       if(isNaN(players) || players <= 0){
-        return {status: false,  msg: "O número de players do seu time não pode ser uma string"}
+        return {status: false,  msg: "Erro na numeração de jogadores do seu time."}
       }
 
       return {status: true}
-
     }
 
   }

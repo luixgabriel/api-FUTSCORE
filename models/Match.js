@@ -75,13 +75,10 @@ class Matchs {
       
     }
 
-    async matchResult(id,winner,defeated,draw,scoreboard){
+    async matchResult(id,winner,defeated,draw){
       let error = false
       try {
-        const Result = await this.searchMatch(id)
-        const finalScore = String(scoreboard[0]) + 'x' + String(scoreboard[1])
-
-        
+        const Result = await this.searchMatch(id);
 
           if(winner !== Result.teams.team1 && winner !== Result.teams.team2){
             error = true;
@@ -96,15 +93,16 @@ class Matchs {
           }
 
           if(draw){
-            const result = await matchsModel.findByIdAndUpdate(id, {draw: true, finished: true, scoreboard: {team1Goals: scoreboard[0], team2Goals: scoreboard[1], totals: finalScore}}, {new: true})
+            // scoreboard: {team1Goals: scoreboard[0], team2Goals: scoreboard[1], totals: finalScore}
+            const result = await matchsModel.findByIdAndUpdate(id, {draw: true, finished: true}, {new: true})
             Teams.updateStats(Result.id);
             return result
           }
 
-          Teams.updateStats(Result.id);
+            Teams.updateStats(Result.id);
         
-          const ResultMatch = await matchsModel.findByIdAndUpdate(id, {winner: winner, defeated: defeated, scoreboard: {team1Goals: scoreboard[0], team2Goals: scoreboard[1], totals: finalScore}, finished: true}, {new: true})
-          return ResultMatch
+            const ResultMatch = await matchsModel.findByIdAndUpdate(id, {winner: winner, defeated: defeated, finished: true}, {new: true})
+            return ResultMatch
       } catch (error) {
         console.log(error)
         return {msg: "Erro desconhecido"}
