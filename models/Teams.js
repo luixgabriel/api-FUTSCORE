@@ -122,22 +122,30 @@ class Teams {
     ///////////CONTINUAR DAQUI
 
     async updateStats(id){
-       const match = await Match.searchMatch(id)
        
-       if(match.draw){
-        const t1 = await this.searchTeamByName(match.teams.team1)
-        const t2 = await this.searchTeamByName(match.teams.team2)
+      try {
+        const match = await Match.searchMatch(id)
+       
+        if(match.draw){
+         const t1 = await this.searchTeamByName(match.teams.team1)
+         const t2 = await this.searchTeamByName(match.teams.team2)
+ 
+           await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1})
+           await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1})
+ 
+         return
+        }
+        const winnerTeam = await this.searchTeamByName(match.winner)
+        const defeatedTeam = await this.searchTeamByName(match.defeated)
+     
+        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
+        await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1})
 
-          await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1})
-          await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1})
-
-        return
-       }
-       const winnerTeam = await this.searchTeamByName(match.winner)
-       const defeatedTeam = await this.searchTeamByName(match.defeated)
-    
-       await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
-       await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1})
+      }catch (error) {
+        console.log(error)
+        return {msg: 'Erro desconhecido'};
+      }
+     
        
     }
 
@@ -154,9 +162,9 @@ class Teams {
         return {status: false,  msg: "Erro na numeração de jogadores do seu time."}
       }
 
-      return {status: true}
+        return {status: true}
     }
 
   }
 
-export default new Teams()
+export default new Teams();

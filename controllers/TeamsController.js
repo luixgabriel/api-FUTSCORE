@@ -25,8 +25,8 @@ class TeamsController {
     if(id.length !== 24){
       return res.json({msg:'Time não encontrado na base de dados.'})
     }
-    const team = await Teams.searchTeam(id)
 
+    const team = await Teams.searchTeam(id);
     if(!team){
       return res.json(team.msg)
     }
@@ -38,18 +38,21 @@ class TeamsController {
 
   async deleteTeam(req,res){
     const id = req.params.id
-    if(id.length !== 24){
-      return res.json('Time não encontrado na base de dados')
-    }
+      if(id.length !== 24){
+        return res.json('Time não encontrado na base de dados')
+      }
     const team = await Teams.deleteTeam(id)
-    if(!team){
-      return res.json('Time não encontrado na base de dados')
-    }
-    res.json('Time deletado com sucesso')
+      if(!team){
+        return res.json('Time não encontrado na base de dados')
+      }
+      res.json('Time deletado com sucesso')
   }
 
   async searchTeam (req,res){
-    const id = req.params.id
+    const id = req.params.id;
+      if(id.length !== 24){
+        return res.json('Time não encontrado na base de dados');
+      }
     const team = await Teams.searchTeam(id)
     res.json(team)
   }

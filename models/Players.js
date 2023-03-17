@@ -146,8 +146,15 @@ class Players {
       }
     }
 
-    async validate(name,numberTshirt){
-
+    async getplayers(){
+      try {
+        const Players = await playersModel.find();
+        return Players;
+      } catch (error) {
+        console.log(error);
+        return {msg: 'Erro desconhecido'};
+      }
+      
     }
 
   }

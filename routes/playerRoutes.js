@@ -10,6 +10,7 @@ const routes = new Router();
 // routes.delete('/delete/:id', teamsController.deleteTeam);
 
 routes.post('/', PlayerController.create)
+routes.get('/showPlayers', PlayerController.showPlayers)
 routes.get('/selectedPlayer/:id', PlayerController.searchPlayerById)
 routes.put('/updatePlayer/:id', PlayerController.edit)
 routes.delete('/deletePlayer/:id', PlayerController.delete)
