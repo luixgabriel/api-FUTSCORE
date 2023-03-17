@@ -16,41 +16,31 @@ const playersModel = mongoose.model('Players', playersSchema)
 class Players {
 
     async createPlayer(name,team,numberTshirt){
-      let tshirtDuplicate = false
+      let tshirtDuplicate = false;
 
-      const TeamBD = await Team.searchTeamByName(team)
-      if(!TeamBD){
-        return {status: false, msg: 'Esse time não existe na base de dados'}
+      if(team.players <= team.selectedNumbers.length ){
+        return {msg: 'O time já está com todos os jogadores selecionados'};
       }
 
-      if(TeamBD.players <= TeamBD.selectedNumbers.length ){
-        console.log('parou')
-        return {msg: 'O time já está com todos os jogadores selecionados'}
-      }
-
-      TeamBD.selectedNumbers.forEach(element => {
+      team.selectedNumbers.forEach(element => {
         if(element === numberTshirt){
-          tshirtDuplicate = true
-          return tshirtDuplicate
+          tshirtDuplicate = true;
+          return tshirtDuplicate;
         }
       });
 
       if(tshirtDuplicate){
-        return {msg: 'Já possui um jogador com esse numero de camisa no time'}
+        return {msg: 'Já possui um jogador com esse numero de camisa no time'};
       }
 
-      await Team.updateTeam(TeamBD.id, '','','','', numberTshirt);
+      await Team.updateTeam(team.id, '','','','', numberTshirt);
 
-      const Player = await playersModel.create({name: name, team: team, numberTshirt: numberTshirt});
+      const Player = await playersModel.create({name: name, team: team.name, numberTshirt: numberTshirt});
       return Player
 
     }
 
     async updatePlayer(player, name, team, tshirt, oldShirt, oldTeam){
-
-      
-      console.log(team.name + ' ' + 'Meu time atual')
-      console.log(oldTeam + ' ' + 'Meu time antigo')
 
       if(team.name === oldTeam){
           const tshirtsTeam = team.selectedNumbers;
@@ -58,8 +48,8 @@ class Players {
           tshirtsTeam.push(tshirt);
           await Team.updateTshirt(team.id, tshirtsTeam);
     
-          const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team.name, numberTshirt: tshirt}, {new: true})
-          return attPlayer
+          const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team.name, numberTshirt: tshirt}, {new: true});
+          return attPlayer;
       }
 
 
@@ -72,39 +62,38 @@ class Players {
       await Team.updateTshirt(oldT.id, OldShirts);
 
       const newShirts = team.selectedNumbers;
-      
-      newShirts.push(tshirt)
+      newShirts.push(tshirt);
 
-      await Team.updateTshirt(team.id, newShirts)
+      await Team.updateTshirt(team.id, newShirts);
 
       const attPlayer = await playersModel.findByIdAndUpdate(player.id, {name: name, team: team.name, numberTshirt: tshirt}, {new: true})
-      return attPlayer
-      
-
-      ////////////////////////////////////////////////////////////////
-
-     
-
-      
+      return attPlayer;
 
     }
 
     async deletePlayer(id){
-      const Player = await playersModel.findById(id)
-      if(!Player){
-        return {msg: 'Jogador não existe na base de dados'}
+
+      try {
+        const Player = await playersModel.findById(id)
+          if(!Player){
+            return {msg: 'Jogador não existe na base de dados'};
+          }
+        const tshirt = Player.numberTshirt;
+          if(!tshirt){
+            return {msg: 'Jogador não existe na base de dados'};
+          }
+        const TeamBD = await Team.searchTeamByName(Player.team);
+        let arr = TeamBD.selectedNumbers;
+        arr.splice(arr.indexOf(tshirt), 1);
+        await Team.removeTshirt(TeamBD.id, arr);
+        await playersModel.findByIdAndDelete(id);
+        
+          return {msg: 'Jogador deletado com sucesso'};
+      } catch (error) {
+        console.log(error);
+        return {msg: 'Erro desconhecido, tente novamente.'}
       }
-      const tshirt = Player.numberTshirt;
-      if(!tshirt){
-        return {msg: 'Jogador não existe na base de dados'}
-      }
-      const TeamBD = await Team.searchTeamByName(Player.team)
-      let arr = TeamBD.selectedNumbers;
-      arr.splice(arr.indexOf(tshirt), 1);
-      await Team.removeTshirt(TeamBD.id, arr);
-      await playersModel.findByIdAndDelete(id);
-      
-      return {msg: 'Jogador deletado com sucesso'};
+     
      
     }
 

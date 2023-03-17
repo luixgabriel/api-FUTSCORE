@@ -12,7 +12,13 @@ class PlayerController {
     if(!name || !team || !numberTshirt){
       return res.json({msg: 'Erro ao enviar os dados, preencha o cadastro completo.'})
     }
-    const player = await Players.createPlayer(name,team,numberTshirt)
+
+    const teamBD = await Teams.searchTeamByName(team);
+    if(!teamBD){
+      return res.json({msg: 'Esse time não existe na base de dados.'})
+    }
+
+    const player = await Players.createPlayer(name,teamBD,numberTshirt)
     res.json(player)
   }
 
@@ -22,7 +28,7 @@ class PlayerController {
     const playerBD = await Players.serchPlayerById(id)
 
     if(!playerBD){
-        return res.json({msg: 'Esse jogador não existe na base de dados'})
+        return res.json({msg: 'Esse jogador não existe na base de dados'});
     }
 
     const teamBD = await Teams.searchTeamByName(team);
@@ -35,19 +41,19 @@ class PlayerController {
     const numberExists = teamNumbers.find(tshirt => tshirt === numberTshirt);
   
     if(numberExists){
-      return res.json({msg: 'Já possui um jogador com esse numero de camisa no time'})
+      return res.json({msg: 'Já possui um jogador com esse numero de camisa no time'});
     }
 
- 
-    const playerAtt = await Players.updatePlayer(PlayerBD, name, TeamBD, numberTshirt, PlayerBD.numberTshirt, PlayerBD.team);
-
+    const playerAtt = await Players.updatePlayer(playerBD, name, teamBD, numberTshirt, playerBD.numberTshirt, playerBD.team);
     res.json(playerAtt);
     
-
   }
 
   async delete(req,res){
     const id = req.params.id;
+    if(id.length !== 24){
+      return res.json('Jogador não encontrado na base de dados');
+    }
     const msg = await Players.deletePlayer(id);
     res.json(msg);
   }

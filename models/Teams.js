@@ -18,7 +18,7 @@ const teamsModel = mongoose.model('Teams', teamsSchema)
 //Service
 class Teams {
      constructor(tshirtNumbers){
-        this.tshirtNumbers = []
+        this.tshirtNumbers = [];
      }
 
     async getTeams(){
@@ -27,13 +27,14 @@ class Teams {
         return Teams;
       } catch (error) {
         console.log(error)
-        return {msg: 'Erro desconhecido'};
+        return {msg: 'Erro desconhecido, tente novamente.'};
       }
     }
 
     async create(name,players,shield,slogan){
       try {
         const validate = await this.validate(name,players,shield,slogan);
+        console.log(validate)
         if (!validate.status){
           return {msg: validate.msg}
         }
@@ -43,7 +44,7 @@ class Teams {
 
       } catch (error) {
         console.log(error)
-        return {msg: 'Erro desconhecido'}
+        return {msg: 'Erro desconhecido, tente novamente.'}
       }
       
     }
@@ -71,7 +72,7 @@ class Teams {
 
           } catch (error) {
             console.log(error)
-            return {msg: 'Erro desconhecido'}
+            return {msg: 'Erro desconhecido, tente novamente.'}
           }
           
         }
@@ -88,7 +89,7 @@ class Teams {
         return 
       } catch (error) {
         console.log(error);
-        return {msg: 'Erro desconhecido'}
+        return {msg: 'Erro desconhecido, tente novamente.'}
       }
       
     }
@@ -102,7 +103,7 @@ class Teams {
         return Team;
       } catch (error) {
         console.log(error);
-        return {msg: 'Erro desconhecido'};
+        return {msg: 'Erro desconhecido, tente novamente.'};
       }
     }
 
@@ -114,36 +115,35 @@ class Teams {
         }
         return Team;
       } catch (error) {
-        return {msg: 'Esse time não existe na base de dados'}
+        console.log(error);
+        return {msg: 'Erro desconhecido, tente novamente.'};
       }
       
     }
 
-    ///////////CONTINUAR DAQUI
-
     async updateStats(id){
        
       try {
-        const match = await Match.searchMatch(id)
+        const match = await Match.searchMatch(id);
        
         if(match.draw){
-         const t1 = await this.searchTeamByName(match.teams.team1)
-         const t2 = await this.searchTeamByName(match.teams.team2)
+         const t1 = await this.searchTeamByName(match.teams.team1);
+         const t2 = await this.searchTeamByName(match.teams.team2);
  
-           await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1})
-           await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1})
+           await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1});
+           await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1});
  
          return
         }
-        const winnerTeam = await this.searchTeamByName(match.winner)
-        const defeatedTeam = await this.searchTeamByName(match.defeated)
+        const winnerTeam = await this.searchTeamByName(match.winner);
+        const defeatedTeam = await this.searchTeamByName(match.defeated);
      
-        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1})
-        await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1})
+        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1});
+        await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1});
 
       }catch (error) {
-        console.log(error)
-        return {msg: 'Erro desconhecido'};
+        console.log(error);
+        return {msg: 'Erro desconhecido, tente novamente.'};
       }
      
        
@@ -151,9 +151,11 @@ class Teams {
 
     async validate(name,players,shield,slogan){
       const teamExists = await this.searchTeamByName(name);
-      if(teamExists){
+
+      if(!teamExists.msg){
         return {msg: 'Esse time já existe na base de dados, Digite outro nome.'}
       }
+  
       if(!name || !players || !shield || !slogan){
         return {status: false,  msg: "Erro na validação dos dados."}
       }

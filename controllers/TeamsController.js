@@ -11,6 +11,7 @@ class TeamsController {
     const {name, players, shield, slogan} = req.body
     const team = await Teams.create(name, players, shield, slogan);
 
+    console.log(team)
     if(team.error){
       return res.json(team.msg)
     }
@@ -37,7 +38,7 @@ class TeamsController {
   }
 
   async deleteTeam(req,res){
-    const id = req.params.id
+    const id = req.params.id;
       if(id.length !== 24){
         return res.json('Time não encontrado na base de dados')
       }
@@ -53,8 +54,8 @@ class TeamsController {
       if(id.length !== 24){
         return res.json('Time não encontrado na base de dados');
       }
-    const team = await Teams.searchTeam(id)
-    res.json(team)
+    const team = await Teams.searchTeam(id);
+     res.json(team);
   }
 
 
