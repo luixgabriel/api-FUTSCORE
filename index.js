@@ -28,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+app.use(express.static('uploads'));
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
 app.use('/player', playerRoutes);

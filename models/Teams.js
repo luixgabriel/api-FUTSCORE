@@ -4,7 +4,7 @@ import Match from "../models/Match.js";
 const teamsSchema = new mongoose.Schema({
     name: {type: String, required: true},
     players: {type: Number, required: true},
-    shield: {type: String, required: true},
+    shield: {type: String, required: true, default: 'logo.jpg'},
     slogan: {type: String, required: true},
     wins: {type: Number, default: '0'},
     defeats: {type: Number, default: '0'},
@@ -32,9 +32,9 @@ class Teams {
     }
 
     async create(name,players,shield,slogan){
+
       try {
         const validate = await this.validate(name,players,shield,slogan);
-        console.log(validate)
         if (!validate.status){
           return {msg: validate.msg}
         }
