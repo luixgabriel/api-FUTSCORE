@@ -4,7 +4,8 @@ import Teams from "../models/Teams.js";
 class PlayerController {
   async showPlayers(req, res) {
     const players = await Players.getplayers();
-    res.json(players);
+    res.json({nome: "luix gabriel",
+  slogan: "OBRABO"});
   }
 
   async create(req,res){

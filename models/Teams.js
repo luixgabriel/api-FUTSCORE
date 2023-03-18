@@ -79,7 +79,10 @@ class Teams {
     
     async updateTshirt(id, tshirts){
       await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts},{new: true});
-      
+    } 
+
+    async removeTshirt(id, tshirts){
+      await teamsModel.findByIdAndUpdate(id, {selectedNumbers: tshirts});
     } 
 
 

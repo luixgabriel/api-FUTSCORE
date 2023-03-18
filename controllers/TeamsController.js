@@ -14,20 +14,25 @@ class TeamsController {
 
   async createTeam(req,res) {
     const url = process.env.URLSERVER;
+    if(!req.file){
+      const {name, players, slogan} = req.body
+      const shield = 'null';
+      const team = await Teams.create(name, players,shield, slogan);
+      return res.json(team);
+    }
+
     const shield = url + req.file.filename;
-  
     if(extname(shield) !== '.png'){
       return res.json({msg: 'A imagem precisa ser no formato png.'});
     }
     const {name, players, slogan} = req.body
     const team = await Teams.create(name, players, shield, slogan);
 
-    console.log(team)
     if(team.error){
-      return res.json(team.msg)
-    }
+      return res.json(team.msg);
+    };
     
-    res.json(team)
+    return res.json(team);
   }
 
   async updateTeam(req,res){

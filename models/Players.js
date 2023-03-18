@@ -72,7 +72,6 @@ class Players {
     }
 
     async deletePlayer(id){
-
       try {
         const Player = await playersModel.findById(id)
           if(!Player){
@@ -91,7 +90,7 @@ class Players {
           return {msg: 'Jogador deletado com sucesso'};
       } catch (error) {
         console.log(error);
-        return {msg: 'Erro desconhecido, tente novamente.'}
+          return {msg: 'Erro desconhecido, tente novamente.'}
       }
      
      
