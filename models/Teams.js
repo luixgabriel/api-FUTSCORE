@@ -114,7 +114,7 @@ class Teams {
       try {
         const Team = await teamsModel.findOne({name: name})
         if(!Team){
-          return {msg: 'Esse time não existe na base de dados.'}
+          return Team;
         }
         return Team;
       } catch (error) {

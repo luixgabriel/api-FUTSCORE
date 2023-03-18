@@ -24,20 +24,22 @@ class PlayerController {
 
   async edit(req,res){
     const id = req.params.id;
+      if(id.length !== 24){
+        return res.json({msg: 'Jogador não encontrado na base de dados'});
+      }
     const {name, team, numberTshirt} = req.body;
     const playerBD = await Players.serchPlayerById(id)
-
-    if(!team){
-      const playerAtt = await Players.updatePlayer(u)
-    }
-
-    if(!playerBD){
-        return res.json({msg: 'Esse jogador não existe na base de dados'});
-    }
+    
+      if(!team){
+        const playerAtt = await Players.updatePlayer(u)
+      }
+      if(!playerBD){
+          return res.json({msg: 'Esse jogador não existe na base de dados'});
+      }
 
     const teamBD = await Teams.searchTeamByName(team);
-    
-    if(teamBD.msg){
+
+    if(!teamBD){
       return res.json({msg: 'Esse time não existe na base de dados'});
     }
 
@@ -48,7 +50,7 @@ class PlayerController {
       return res.json({msg: 'Já possui um jogador com esse numero de camisa no time'});
     }
 
-    const playerAtt = await Players.updatePlayer(playerBD, teamBD, numberTshirt, playerBD.numberTshirt, playerBD.team);
+    const playerAtt = await Players.updatePlayer(playerBD, name, teamBD, numberTshirt, playerBD.numberTshirt, playerBD.team);
     res.json(playerAtt);
     
   }

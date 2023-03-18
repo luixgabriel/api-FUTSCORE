@@ -62,7 +62,7 @@ class TeamsController {
       if(!team){
         return res.json('Time não encontrado na base de dados')
       }
-      res.json('Time deletado com sucesso')
+      return res.json('Time deletado com sucesso');
   }
 
   async searchTeam (req,res){
