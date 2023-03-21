@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors';
+// import cors from 'cors';
 import dotenv from 'dotenv';
 
 
@@ -32,7 +32,7 @@ app.use(bodyParser.json());
 
 
 app.use(express.static('uploads'));
-app.use(cors());
+// app.use(cors());
 
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
