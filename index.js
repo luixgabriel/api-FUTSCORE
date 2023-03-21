@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors';
+
 
 // const router = new Router();
 // console.log(router);
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 
 
 app.use(express.static('uploads'));
-app.use(cors())
+
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
 app.use('/player', playerRoutes);
