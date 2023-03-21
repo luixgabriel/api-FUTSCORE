@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // const router = new Router();
 // console.log(router);
@@ -27,6 +28,7 @@ mongoose.connect(process.env.MONGOURL).then(() => {
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+app.use(cors())
 
 app.use(express.static('uploads'));
 app.use('/', teamRoutes);
