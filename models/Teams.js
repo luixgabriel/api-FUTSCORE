@@ -155,7 +155,7 @@ class Teams {
     async validate(name,players,shield,slogan){
       const teamExists = await this.searchTeamByName(name);
 
-      if(!teamExists.msg){
+      if(teamExists){
         return {msg: 'Esse time já existe na base de dados, Digite outro nome.'}
       }
   
