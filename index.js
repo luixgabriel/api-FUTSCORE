@@ -28,9 +28,10 @@ mongoose.connect(process.env.MONGOURL).then(() => {
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-// app.use(cors())
+
 
 app.use(express.static('uploads'));
+app.use(cors())
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
 app.use('/player', playerRoutes);
