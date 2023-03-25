@@ -43,7 +43,7 @@ class Matchs {
             return {msg: 'Erro desconhecido, tente novamente.'}
           }
         }
-        return status;
+        return 
         
     }
 

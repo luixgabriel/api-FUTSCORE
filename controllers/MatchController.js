@@ -9,21 +9,21 @@ class MatchController {
 
   async createMatch(req,res){
     const { name, duration, times } = req.body;
-    const teams = ['Barcelona']
-    teams.push(name)
+    const teams = [name[0], name[1]];
+    
 
     const t1 = await Teams.searchTeamByName(teams[0]);
     const t2 = await Teams.searchTeamByName(teams[1]);
-
-    if(t1.msg && t2.msg){
+    
+    if(!t1 && !t2){
       return res.json({msg: 'Os times não estão cadastrados na base de dados.'});
     }
 
-    if(t1.msg){
+    if(!t1){
       return res.json({msg: `O ${teams[0]} não está cadastrado na base de dados.`});
     }
 
-    if(t2.msg){
+    if(!t2){
       return res.json({msg: `O ${teams[1]} não está cadastrado na base de dados.`});
     }
 
