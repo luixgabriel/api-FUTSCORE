@@ -3,8 +3,9 @@ import Match from "../models/Match.js";
 import Player from '../models/Players.js'
 /* eslint-disable class-methods-use-this */
 class MatchController {
-  async finishedMatches(req, res) {
-    res.send('APP EXPRESS! - Guia do programador');
+  async getAll(req, res) {
+    const matches = await Match.getAllMatches();
+    return res.json(matches);
   }
 
   async createMatch(req,res){

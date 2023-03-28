@@ -47,6 +47,17 @@ class Matchs {
         
     }
 
+    async getAllMatches() {
+      try {
+        const Matches = await matchsModel.find();
+        return Matches
+      } catch (error) {
+        console.log(error)
+        return {msg: 'Erro desconhecido, tente novamente.'};
+      }
+      
+    }
+
     async matchEvents(match, team, goals, assists){
 
       try {
