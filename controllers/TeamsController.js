@@ -75,6 +75,14 @@ class TeamsController {
   }
 
 
+  //ROUTE SPECIFIC FOR FUTSCORE
+  async updateTeamMatches (req,res){
+    const {winner, defeated, draw} = req.body;
+    const result = await Teams.updateTeamsMatches(winner, defeated, draw);
+    res.json(result)
+  }
+
+
 }
 
 export default new TeamsController();

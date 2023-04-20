@@ -41,7 +41,11 @@ class Players {
     }
 
     async updatePlayer(player, name, team, tshirt, oldShirt, oldTeam){
-      const updateUser = 'ss'
+      const updatePlayer = {}
+      if(name){
+        updatePlayer.name = name
+        console.log(updatePlayer)
+      }
       if(team.name === oldTeam){
           const tshirtsTeam = team.selectedNumbers;
           tshirtsTeam.splice(tshirtsTeam.indexOf(oldShirt), 1);
