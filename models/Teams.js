@@ -133,16 +133,16 @@ class Teams {
          const t1 = await this.searchTeamByName(match.teams.team1);
          const t2 = await this.searchTeamByName(match.teams.team2);
  
-           await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1});
-           await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1});
+          //  await teamsModel.findByIdAndUpdate(t1.id, {draws: t1.draws + 1});
+          //  await teamsModel.findByIdAndUpdate(t2.id, {draws: t2.draws + 1});
  
          return
         }
         const winnerTeam = await this.searchTeamByName(match.winner);
         const defeatedTeam = await this.searchTeamByName(match.defeated);
      
-        await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1});
-        await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1});
+        // await teamsModel.findByIdAndUpdate(winnerTeam.id, {wins: winnerTeam.wins + 1});
+        // await teamsModel.findByIdAndUpdate(defeatedTeam.id, {defeats: defeatedTeam.defeats + 1});
 
       }catch (error) {
         console.log(error);
@@ -176,7 +176,6 @@ class Teams {
       const teamDefeated = await this.searchTeamByName(defeated);
       console.log('oi')
       if(draw){
-        console.log('empatou')
         await teamsModel.findByIdAndUpdate(teamWinner.id, {draws: teamWinner.draws + 1});
         await teamsModel.findByIdAndUpdate(teamDefeated.id, {draws: teamDefeated.draws + 1});
         return;
