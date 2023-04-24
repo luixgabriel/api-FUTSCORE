@@ -174,15 +174,16 @@ class Teams {
     async updateTeamsMatches (winner, defeated, draw){
       const teamWinner = await this.searchTeamByName(winner);
       const teamDefeated = await this.searchTeamByName(defeated);
-      console.log('oi')
+      console.log(draw);
+      
       if(draw){
         await teamsModel.findByIdAndUpdate(teamWinner.id, {draws: teamWinner.draws + 1});
         await teamsModel.findByIdAndUpdate(teamDefeated.id, {draws: teamDefeated.draws + 1});
-        return;
+        return
       }
       await teamsModel.findByIdAndUpdate(teamWinner.id, {wins: teamWinner.wins + 1});
       await teamsModel.findByIdAndUpdate(teamDefeated.id, {defeats: teamDefeated.defeats + 1});
-      return;
+      return
     }
 
   }
