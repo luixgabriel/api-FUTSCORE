@@ -9,11 +9,12 @@
   "paths": {
     "/": {
       "get": {
+        "tags":["Teams"],
         "sumary": "Retorna uma lista com todos os times.",
         "description": "Get All Teams.",
         "responses": {
             "200": {
-
+              "description": "Success"
             }
         }
       }
