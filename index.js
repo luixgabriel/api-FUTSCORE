@@ -7,6 +7,8 @@ import mongoose from 'mongoose';
 
 import dotenv from 'dotenv';
 import cors from 'cors';
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' assert { type: "json" };;
 
 // const router = new Router();
 // console.log(router);
@@ -37,6 +39,7 @@ app.use(cors());
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
 app.use('/player', playerRoutes);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.listen(process.env.PORT || 8000, () => {
   console.log('Servidor rodando');

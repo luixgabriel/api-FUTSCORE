@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FutScore",
+    "description": "Documentation from Futscore.",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "sumary": "Retorna uma lista com todos os times.",
+        "description": "Get All Teams.",
+        "responses": {
+            "200": {
+
+            }
+        }
+      }
+    }
+  }
+
+}
