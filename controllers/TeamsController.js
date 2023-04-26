@@ -29,7 +29,7 @@ class TeamsController {
     const team = await Teams.create(name, players, shield, slogan);
 
     if(team.error){
-      return res.status(400).json(team.msg);
+      return res.status(404).json(team.msg);
     };
     
     return res.status(200).json(team);
@@ -40,12 +40,12 @@ class TeamsController {
     const {name, players, shield, slogan} = req.body;
 
     if(id.length !== 24){
-      return res.status(400).json({msg:'Time não encontrado na base de dados.'})
+      return res.status(404).json({msg:'Time não encontrado na base de dados.'})
     }
 
     const team = await Teams.searchTeam(id);
     if(!team){
-      return res.status(400).json(team.msg)
+      return res.status(404).json(team.msg)
     }
     
     const teamUp = await Teams.updateTeam(id, name, players, shield, slogan)
@@ -56,11 +56,11 @@ class TeamsController {
   async deleteTeam(req,res){
     const id = req.params.id;
       if(id.length !== 24){
-        return res.status(400).json('Time não encontrado na base de dados')
+        return res.status(404).json('Time não encontrado na base de dados')
       }
     const team = await Teams.deleteTeam(id)
       if(!team){
-        return res.status(400).json('Time não encontrado na base de dados')
+        return res.status(404).json('Time não encontrado na base de dados')
       }
       return res.status(200).json('Time deletado com sucesso');
   }
@@ -68,7 +68,7 @@ class TeamsController {
   async searchTeam (req,res){
     const id = req.params.id;
       if(id.length !== 24){
-        return res.status(400).json('Time não encontrado na base de dados');
+        return res.status(404).json('Time não encontrado na base de dados');
       }
     const team = await Teams.searchTeam(id);
      res.status(200).json(team);

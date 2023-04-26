@@ -17,15 +17,15 @@ class MatchController {
     const t2 = await Teams.searchTeamByName(teams[1]);
     
     if(!t1 && !t2){
-      return res.status(400).json({msg: 'Os times não estão cadastrados na base de dados.'});
+      return res.status(404).json({msg: 'Os times não estão cadastrados na base de dados.'});
     }
 
     if(!t1){
-      return res.status(400).json({msg: `O ${teams[0]} não está cadastrado na base de dados.`});
+      return res.status(404).json({msg: `O ${teams[0]} não está cadastrado na base de dados.`});
     }
 
     if(!t2){
-      return res.status(400).json({msg: `O ${teams[1]} não está cadastrado na base de dados.`});
+      return res.status(404).json({msg: `O ${teams[1]} não está cadastrado na base de dados.`});
     }
 
     const match = await Match.create(duration, times, teams[0], teams[1]);
@@ -36,7 +36,7 @@ class MatchController {
   async matchEvents(req,res){
     const id = req.params.id;
     if(id.length !== 24){
-      return res.status(400).json({msg: 'Essa partida não existe.'})
+      return res.status(404).json({msg: 'Essa partida não existe.'})
     }
     const {team, goals, assists} = req.body;
    
@@ -45,30 +45,30 @@ class MatchController {
     const playerGoal = await Player.serchPlayerByName(goals);
     
     if(!match){
-      return res.status(400).json({msg: 'Essa partida não existe.'});
+      return res.status(404).json({msg: 'Essa partida não existe.'});
     }
 
     if(!teamBD){
-      return res.status(400).json({msg: 'Esse time não está na base de dados.'});
+      return res.status(404).json({msg: 'Esse time não está na base de dados.'});
     }
 
     if(!playerGoal){
-      return res.status(400).json({msg: 'O jogador que fez o gol não está na base de dados.'});
+      return res.status(404).json({msg: 'O jogador que fez o gol não está na base de dados.'});
     }
 
     
     if(playerGoal.team !== teamBD.name){
-      return res.status(400).json({msg: 'Esse jogador não faz parte desse time'});
+      return res.status(409).json({msg: 'Esse jogador não faz parte desse time'});
     }
 
     if(assists){
       const playerAssist = await Player.serchPlayerByName(assists)
         if(!playerAssist){
-          return res.status(400).json({msg: 'O jogador que deu a assistência não está na base de dados'});
+          return res.status(404).json({msg: 'O jogador que deu a assistência não está na base de dados'});
         }
 
         if(playerAssist.team !== teamBD.name){
-          return res.status(400).json({msg: 'Esse jogador não faz parte desse time'});
+          return res.status(409).json({msg: 'Esse jogador não faz parte desse time'});
         }
 
         const matchCurrent = await Match.matchEvents(match, teamBD, playerGoal, playerAssist);
@@ -84,7 +84,7 @@ class MatchController {
   async resultMatch(req,res){
     const id = req.params.id;
     if(id.length !== 24){
-      return res.status(400).json({msg: 'Essa partida não existe.'});
+      return res.status(404).json({msg: 'Essa partida não existe.'});
     }
     const {winner, defeated, draw} = req.body
     const result = await Match.matchResult(id, winner, defeated, draw);
@@ -94,7 +94,7 @@ class MatchController {
   async searchMatch(req,res){
     const id = req.params.id;
     if(id.length !== 24){
-      return res.status(400).json({msg: 'Essa partida não existe.'});
+      return res.status(404).json({msg: 'Essa partida não existe.'});
     }
     const match = await Match.searchMatch(id);
     res.status(200).json(match);

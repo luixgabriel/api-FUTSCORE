@@ -15,7 +15,7 @@ class PlayerController {
 
     const teamBD = await Teams.searchTeamByName(team);
     if(!teamBD){
-      return res.status(400).json({msg: 'Esse time não existe na base de dados.'})
+      return res.status(404).json({msg: 'Esse time não existe na base de dados.'})
     }
 
     const player = await Players.createPlayer(name,teamBD,numberTshirt)
@@ -25,7 +25,7 @@ class PlayerController {
   async edit(req,res){
     const id = req.params.id;
       if(id.length !== 24){
-        return res.status(400).json({msg: 'Jogador não encontrado na base de dados'});
+        return res.status(404).json({msg: 'Jogador não encontrado na base de dados'});
       }
     const {name, team, numberTshirt} = req.body;
     const playerBD = await Players.serchPlayerById(id)
@@ -34,20 +34,20 @@ class PlayerController {
         const playerAtt = await Players.updatePlayer(u)
       }
       if(!playerBD){
-          return res.status(400).json({msg: 'Esse jogador não existe na base de dados'});
+          return res.status(404).json({msg: 'Esse jogador não existe na base de dados'});
       }
 
     const teamBD = await Teams.searchTeamByName(team);
 
     if(!teamBD){
-      return res.status(400).json({msg: 'Esse time não existe na base de dados'});
+      return res.status(404).json({msg: 'Esse time não existe na base de dados'});
     }
 
     const teamNumbers = teamBD.selectedNumbers;
     const numberExists = teamNumbers.find(tshirt => tshirt === numberTshirt);
   
     if(numberExists){
-      return res.status(400).json({msg: 'Já possui um jogador com esse numero de camisa no time'});
+      return res.status(409).json({msg: 'Já possui um jogador com esse numero de camisa no time'});
     }
 
     const playerAtt = await Players.updatePlayer(playerBD, name, teamBD, numberTshirt, playerBD.numberTshirt, playerBD.team);
@@ -58,7 +58,7 @@ class PlayerController {
   async delete(req,res){
     const id = req.params.id;
     if(id.length !== 24){
-      return res.status(400).json('Jogador não encontrado na base de dados');
+      return res.status(404).json('Jogador não encontrado na base de dados');
     }
     const msg = await Players.deletePlayer(id);
     res.status(200).json(msg);
