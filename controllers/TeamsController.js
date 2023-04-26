@@ -9,7 +9,7 @@ dotenv.config();
 class TeamsController {
   async showTeams(req, res) {
     const teams = await Teams.getTeams()
-    res.json(teams)
+    res.status(200).json(teams)
   }
 
   async createTeam(req,res) {
@@ -18,21 +18,21 @@ class TeamsController {
       const {name, players, slogan} = req.body
       const shield = 'null';
       const team = await Teams.create(name, players,shield, slogan);
-      return res.json(team);
+      return res.status(200).json(team);
     }
 
     const shield = url + req.file.filename;
     if(extname(shield) !== '.png'){
-      return res.json({msg: 'A imagem precisa ser no formato png.'});
+      return res.status(400).json({msg: 'A imagem precisa ser no formato png.'});
     }
     const {name, players, slogan} = req.body
     const team = await Teams.create(name, players, shield, slogan);
 
     if(team.error){
-      return res.json(team.msg);
+      return res.status(400).json(team.msg);
     };
     
-    return res.json(team);
+    return res.status(200).json(team);
   }
 
   async updateTeam(req,res){
@@ -40,38 +40,38 @@ class TeamsController {
     const {name, players, shield, slogan} = req.body;
 
     if(id.length !== 24){
-      return res.json({msg:'Time não encontrado na base de dados.'})
+      return res.status(400).json({msg:'Time não encontrado na base de dados.'})
     }
 
     const team = await Teams.searchTeam(id);
     if(!team){
-      return res.json(team.msg)
+      return res.status(400).json(team.msg)
     }
     
     const teamUp = await Teams.updateTeam(id, name, players, shield, slogan)
-    res.json(teamUp)
+    res.status(200).json(teamUp)
    
   }
 
   async deleteTeam(req,res){
     const id = req.params.id;
       if(id.length !== 24){
-        return res.json('Time não encontrado na base de dados')
+        return res.status(400).json('Time não encontrado na base de dados')
       }
     const team = await Teams.deleteTeam(id)
       if(!team){
-        return res.json('Time não encontrado na base de dados')
+        return res.status(400).json('Time não encontrado na base de dados')
       }
-      return res.json('Time deletado com sucesso');
+      return res.status(200).json('Time deletado com sucesso');
   }
 
   async searchTeam (req,res){
     const id = req.params.id;
       if(id.length !== 24){
-        return res.json('Time não encontrado na base de dados');
+        return res.status(400).json('Time não encontrado na base de dados');
       }
     const team = await Teams.searchTeam(id);
-     res.json(team);
+     res.status(200).json(team);
   }
 
 

@@ -3,14 +3,26 @@
   "info": {
     "title": "FutScore",
     "description": "Documentation from Futscore.",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "contact": {
+      "email": "luisgasbriel@gmail.com"
+    }
   },
-  "basePath": "/",
+  "servers": [
+    {
+      "url": "http://localhost:8686",
+      "description": "testing local"
+    },
+    {
+      "url": "https://apiintersala-production.up.railway.app",
+      "description": "API in Production"
+    }
+  ],
   "paths": {
     "/": {
       "get": {
         "tags":["Teams"],
-        "sumary": "Retorna uma lista com todos os times.",
+        "summary": "RETURN A LIST OF ALL TEAMS.",
         "description": "Get All Teams.",
         "responses": {
             "200": {
