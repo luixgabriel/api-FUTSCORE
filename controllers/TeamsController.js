@@ -13,7 +13,8 @@ class TeamsController {
   }
 
   async createTeam(req,res) {
-    const url = 'https://apiintersala-production.up.railway.app';
+    const url = 'https://apiintersala-production.up.railway.app/';
+    console.log('teste')
     if(!req.file){
       const {name, players, slogan} = req.body
       const shield = 'null';

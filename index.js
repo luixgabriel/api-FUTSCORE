@@ -1,7 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/extensions */
 import bodyParser from 'body-parser';
-
 import express from 'express';
 import mongoose from 'mongoose';
 
@@ -31,9 +30,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-app.use(express.static('uploads'));
+app.use(express.static('./upload'))
 app.use(cors());
-
 app.use('/', teamRoutes);
 app.use('/match', matchRoutes);
 app.use('/player', playerRoutes);
