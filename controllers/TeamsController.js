@@ -13,7 +13,8 @@ class TeamsController {
   }
 
   async createTeam(req,res) {
-    const url = 'https://apiintersala-production.up.railway.app/';
+   
+    const url = 'https://apiintersala-production.up.railway.app';
     if(!req.file){
       const {name, players, slogan} = req.body
       const shield = 'null';
@@ -22,6 +23,7 @@ class TeamsController {
     }
 
     const shield = url + req.file.filename;
+    console.log(shield);
     if(extname(shield) !== '.png'){
       return res.status(400).json({msg: 'A imagem precisa ser no formato png.'});
     }
