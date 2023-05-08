@@ -99,6 +99,19 @@ class MatchController {
     const match = await Match.searchMatch(id);
     res.json(match);
   }
+
+  async deleteMatch(req,res){
+    const id = req.params.id;
+    if(id.length !== 24){
+      return res.json({msg: 'Essa partida não existe.'});
+    }
+    const match = await Match.searchMatch(id)
+      if(!match){
+        return res.json('Partida não encontrada na base de dados.')
+      }
+      return res.json('Partida deletada com sucesso.');
+
+  }
 }
 
 export default new MatchController();

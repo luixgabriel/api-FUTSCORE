@@ -123,6 +123,16 @@ class Matchs {
       }
     }
 
+    async deleteMatch(id){
+      try {
+        await matchsModel.findByIdAndDelete(id);
+        return {msg: 'Partida deletada com sucesso.'}
+      } catch (error) {
+        console.log(error);
+        return {msg: 'Erro desconhecido, tente novamente.'}
+      }
+    }
+
 
     async validate(duration, times, team1, team2){
      
