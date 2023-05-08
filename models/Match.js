@@ -125,8 +125,7 @@ class Matchs {
 
     async deleteMatch(id){
       try {
-        const response = await matchsModel.findByIdAndDelete(id);
-        console.log(response);
+        await matchsModel.findByIdAndDelete(id);
         return {msg: 'Partida deletada com sucesso.'}
       } catch (error) {
         console.log(error);
