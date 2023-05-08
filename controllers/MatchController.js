@@ -101,6 +101,7 @@ class MatchController {
   }
 
   async deleteMatch(req,res){
+    console.log('oi')
     const id = req.params.id;
     if(id.length !== 24){
       return res.json({msg: 'Essa partida não existe.'});
