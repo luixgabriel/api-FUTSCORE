@@ -1,7 +1,7 @@
-# API Intersala - Api para gerenciamento de campeonatos.
+# API Intersala - Api para gerenciamento de campeonatos da minha aplicação FUTSCORE.
 
 <p align="center">
- ![futscore](https://github.com/luixgabriel/apiINTERSALA/assets/70019908/45fc26d8-66aa-4fd9-b7ba-bf298ef90747)
+  <img src="https://github.com/luixgabriel/apiINTERSALA/assets/70019908/45fc26d8-66aa-4fd9-b7ba-bf298ef90747)" width="100%" height="100%"/>
 </p>
 
 > Este é um projeto de uma API Rest desenvolvida utilizando o node JS com express e o banco de dados MongoDB.
@@ -70,8 +70,6 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
  ┗ 📜 playerRoutes.js
  ┗ 📜 teamRoutes.js
 📂 upload
-📜 index.js
-📜 index.js
 📜 index.js
 
 ```
