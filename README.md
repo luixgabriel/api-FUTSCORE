@@ -1,7 +1,7 @@
 # API Intersala - Api para gerenciamento de campeonatos.
 
 <p align="center">
-  <img src="https://www.trakto.io/wp-content/uploads/2022/07/Trakto-logo-dark-2022.svg" width="150"/>
+ ![futscore](https://github.com/luixgabriel/apiINTERSALA/assets/70019908/45fc26d8-66aa-4fd9-b7ba-bf298ef90747)
 </p>
 
 > Este é um projeto de uma API Rest desenvolvida utilizando o node JS com express e o banco de dados MongoDB.
@@ -65,10 +65,15 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
  ┗ 📜 Match.js
  ┗ 📜 Players.js
  ┗ 📜 Teams.js
-📂 test
-┣ 📜 image.controller.spec.ts
-📂 uploads
-📜 .env.example
+📂 routes
+ ┗ 📜 matchRoutes.js
+ ┗ 📜 playerRoutes.js
+ ┗ 📜 teamRoutes.js
+📂 upload
+📜 index.js
+📜 index.js
+📜 index.js
+
 ```
 ## Exemplo de payload:
 <p align="center">
