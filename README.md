@@ -47,9 +47,22 @@ npm run dev
 ```
 ## Endpoints
 
-- `POST /image/save`: Realiza o upload de uma imagem a partir de uma URL pública. A imagem é salva no sistema de arquivos, uma versão reduzida é gerada e os metadados do EXIF são armazenados no MongoDB.
+#### Teams
 
-- `localhost:${PORT}/api-docs`: Swagger com endpoint funcional.
+- `GET /`: Lista todos os times cadastrados no banco de dados.
+- `GET /show/:id`: Lista um time específico pelo id dele no banco de dados.
+- `POST /create`: Realiza um cadastro de um time no banco de dados.
+- `PUT /update/:id`: Realiza a atualização no cadastro de um time específico pelo id no banco de dados.
+- `DELETE /delete/:id`: Deleta um time específico pelo id no banco de dados.
+
+#### Players
+
+- `GET /`: Lista todos os times cadastrados no banco de dados.
+- `GET /show/:id`: Lista um time específico pelo id dele no banco de dados.
+- `POST /create`: Realiza um cadastro de um time no banco de dados.
+- `PUT /update/:id`: Realiza a atualização no cadastro de um time específico pelo id no banco de dados.
+- `DELETE /delete/:id`: Deleta um time específico pelo id no banco de dados.
+
 ## Estrutura de Pastas
 
 A estrutura de pastas do projeto é organizada da seguinte maneira:
