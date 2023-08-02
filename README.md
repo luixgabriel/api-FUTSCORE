@@ -43,11 +43,7 @@ npm install
 ### Execute o Projeto
 
 ```bash
-npm run start
-```
-ou
-```bash
-npm run start:dev
+npm run dev
 ```
 ## Endpoints
 
@@ -59,19 +55,16 @@ npm run start:dev
 A estrutura de pastas do projeto é organizada da seguinte maneira:
 
 ```
-📂 assets
-📂 src
-┣ 📂 config
-┃ ┗ 📜 swagger.ts
-┣ 📂 image
-┃ ┣ 📂 dtos
-┃ ┃ ┗ 📜 image-update.dto.ts
-┃ ┣ 📜 image-upload.service.ts
-┃ ┣ 📜 image.controller.ts
-┃ ┣ 📜 image.module.ts
-┃ ┗ 📜 image.schema.ts
-┣ 📜 app.module.ts
-┗ 📜 main.ts
+📂 config
+ ┗ 📜 multer.js
+📂 controllers
+ ┗ 📜 MatchController.js
+ ┗ 📜 PlayerController.js
+ ┗ 📜 TeamsController.js
+📂 models
+ ┗ 📜 Match.js
+ ┗ 📜 Players.js
+ ┗ 📜 Teams.js
 📂 test
 ┣ 📜 image.controller.spec.ts
 📂 uploads
