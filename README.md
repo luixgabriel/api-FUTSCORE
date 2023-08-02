@@ -57,11 +57,19 @@ npm run dev
 
 #### Players
 
-- `GET /`: Lista todos os times cadastrados no banco de dados.
-- `GET /show/:id`: Lista um time específico pelo id dele no banco de dados.
-- `POST /create`: Realiza um cadastro de um time no banco de dados.
-- `PUT /update/:id`: Realiza a atualização no cadastro de um time específico pelo id no banco de dados.
-- `DELETE /delete/:id`: Deleta um time específico pelo id no banco de dados.
+- `GET /player/showPLayers`: Lista todos os jogadores cadastrados no banco de dados.
+- `GET /player/selectedPlayer/:id`: Lista um jogador específico pelo id dele no banco de dados.
+- `POST /player`: Realiza um cadastro de um jogador no banco de dados.
+- `PUT /player/updatePlayer/:id`: Realiza a atualização no cadastro de um jogador específico pelo id no banco de dados.
+- `DELETE /player/deletePlayer/:id`: Deleta um jogador específico pelo id no banco de dados.
+
+#### Match
+
+- `GET /match/matches`: Lista todas as partidas cadastradas no banco de dados.
+- `GET /match/searchmatch/:id`: Lista uma partida específica pelo id dela no banco de dados.
+- `POST /match`: Realiza um cadastro de uma partida no banco de dados.
+- `PUT /match/current/:id`: Lista a partida em andamento específica pelo id e atualiza os eventos dela.
+- `DELETE /match/deleteMatch/:id`: Deleta uma partida específica pelo id no banco de dados.
 
 ## Estrutura de Pastas
 
@@ -86,7 +94,3 @@ A estrutura de pastas do projeto é organizada da seguinte maneira:
 📜 index.js
 
 ```
-## Exemplo de payload:
-<p align="center">
-<img src="./assets/payload.png" width="100%" height="100%"/></p>
-<br>
