@@ -28,7 +28,7 @@ git clone https://github.com/luixgabriel/apiINTERSALA.git
 
 ### Acesse o diretório do projeto:
 ```bash
-cd image-api
+cd API INTERSALA
 ```
 
 ### Instale as dependências
