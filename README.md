@@ -23,12 +23,12 @@ Execute os seguintes comandos a partir da pasta raiz do projeto:
 ### Clone este repositório
 
 ```bash
-git clone https://github.com/luixgabriel/apiINTERSALA.git
+git clone https://github.com/luixgabriel/api-FUTSCORE.git
 ```
 
 ### Acesse o diretório do projeto:
 ```bash
-cd API INTERSALA
+cd api FUTSCORE
 ```
 
 ### Instale as dependências
