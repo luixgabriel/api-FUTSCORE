@@ -14,7 +14,7 @@ class TeamsController {
 
   async createTeam(req,res) {
     
-    const url = 'http://apiintersala-production.up.railway.app/';
+    const url = 'https://futscore.onrender.com/';
     // const url = 'http://localhost:8686/';
     console.log('teste')
     if(!req.file){
