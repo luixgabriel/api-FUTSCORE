@@ -1,4 +1,4 @@
-# API Intersala - Api para gerenciamento de campeonatos da minha aplicação FUTSCORE.
+# API FUTSCORE - Api para gerenciamento de campeonatos da minha aplicação FUTSCORE.
 
 <p align="center">
   <img src="https://github.com/luixgabriel/apiINTERSALA/assets/70019908/45fc26d8-66aa-4fd9-b7ba-bf298ef90747)" width="100%" height="100%"/>
